@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Embeddable
 @Getter
-public class Address extends BaseTimeEntity {
+public class Address {
 
     private Integer mapX;
 

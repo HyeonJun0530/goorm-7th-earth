@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-import static jakarta.persistence.FetchType.*;
+import static jakarta.persistence.FetchType.LAZY;
 
-@Entity(name = "GOODS")
+@Entity
 @NoArgsConstructor
 @Getter
 public class Goods extends BaseTimeEntity {
@@ -43,12 +43,9 @@ public class Goods extends BaseTimeEntity {
     @Column(name = "goods_limit_count")
     private Integer goodsLimitCount;
 
-    @Column(name = "goods_limit_time")
     private LocalDateTime goodsLimitTime;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "goods_id")
+    @JoinColumn(name = "category_id")
     private Category category;
-
-
 }

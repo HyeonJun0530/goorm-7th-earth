@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "SELLING")
+@Entity
 @NoArgsConstructor
 @Getter
 public class Selling extends BaseTimeEntity {

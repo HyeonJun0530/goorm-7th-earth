@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "CATEGORY")
+@Entity
 @NoArgsConstructor
 @Getter
 public class Category extends BaseTimeEntity {

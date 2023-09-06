@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "CHAT_MESSAGES")
+@Entity
 @Getter
 @NoArgsConstructor
 public class ChatMessages extends BaseTimeEntity {
