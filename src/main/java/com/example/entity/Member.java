@@ -14,13 +14,16 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_id")
     private Long id;
 
-    @Column(name = "member_idx")
+    @Column(name = "member_idx", unique = true)
     private String memberIdx;
 
     @Column(name = "member_password")
     private String password;
 
-    @Column(name = "member_phone_number")
+    @Column(unique = true)
+    private String nickname;
+
+    @Column(name = "member_phone_number", unique = true)
     private String phoneNumber;
 
 }
