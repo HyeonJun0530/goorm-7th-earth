@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM krmp-d2hub-idock.9rum.cc/goorm/gradle:7.3.1-jdk17
+FROM krmp-d2hub-idock.9rum.cc/goorm/gradle:8.2.1-jdk17
 
 WORKDIR /home/gradle/project
 
