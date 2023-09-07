@@ -6,4 +6,8 @@ WORKDIR /usr/src/app
 
 ARG JAR_PATH=./build/libs
 
+RUN gradle wrapper
+
+RUN ./gradlew clean build
+
 COPY ${JAR_PATH}/goorm-7th-earth-0.0.1-SNAPSHOT.jar ${JAR_PATH}/goorm-7th-earth-0.0.1-SNAPSHOT.jar
