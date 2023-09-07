@@ -7,7 +7,7 @@ RUN echo "systemProp.http.proxyHost=krmp-proxy.9rum.cc\nsystemProp.http.proxyPor
 
 RUN gradle wrapper
 
-RUN ./gradlew clean build
+RUN ./gradlew bootJar
 
 
 CMD ["java","-jar","-Dspring.profiles.active=prod", "/home/gradle/project/build/libs/goorm-7th-earth-0.0.1-SNAPSHOT.jar"]
