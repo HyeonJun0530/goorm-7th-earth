@@ -11,6 +11,6 @@ RUN gradle wrapper
 
 RUN ./gradlew clean build
 
-ENV DATABASE_URL=jdbc:mysql://mysql/krampoline
+ENV DATABASE_URL=jdbc:mariadb://mariadb/krampoline
 
 CMD ["java", "-jar", "-Dspring.profiles.active=prod", "/home/gradle/project/build/libs/kakao-1.0.jar"]
