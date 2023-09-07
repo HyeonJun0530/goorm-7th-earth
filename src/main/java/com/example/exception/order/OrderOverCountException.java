@@ -3,7 +3,7 @@ package com.example.exception.order;
 import com.example.exception.global.ExceptionCode;
 import lombok.Getter;
 
-import static com.example.exception.order.OrderException.*;
+import static com.example.exception.order.OrderException.ORDER_OVER_COUNT;
 
 @Getter
 public class OrderOverCountException extends RuntimeException {

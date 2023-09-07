@@ -3,6 +3,7 @@ package com.example.entity.order;
 import com.example.entity.BaseTimeEntity;
 import com.example.entity.Member;
 import com.example.entity.goods.Goods;
+import com.example.exception.order.OrderOverCountException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,4 +38,18 @@ public class Order extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    public static Order createOrder(Integer orderCount, OrderType orderType,
+                                    Goods goods, Member member, Integer currentOrderCount) {
+        Order order = new Order();
+        if(goods.getGoodsLimitCount() - (currentOrderCount + orderCount) < 0) {
+            throw new OrderOverCountException();
+        }
+        order.orderCount = orderCount;
+        order.orderPrice = (goods.getGoodsPrice() * orderCount) + (goods.getDeliveryFee() / (currentOrderCount + 1));
+        order.orderType = orderType;
+        order.goods = goods;
+        order.member = member;
+
+        return order;
+    }
 }
