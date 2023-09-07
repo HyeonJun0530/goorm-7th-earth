@@ -1,11 +1,16 @@
 package com.example.entity.goods;
 
 import com.example.entity.BaseTimeEntity;
+import com.example.entity.Member;
+import com.example.entity.order.Order;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -37,15 +42,46 @@ public class Goods extends BaseTimeEntity {
     @Embedded
     private Address address;
 
-    @Column(name = "goods_is_deleted")
-    private boolean isDeleted;
+    @Column(name = "goods_is_end")
+    private boolean isEnd;
 
     @Column(name = "goods_limit_count")
     private Integer goodsLimitCount;
 
     private LocalDateTime goodsLimitTime;
 
+    private String hostNickname;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
+
+
+    @OneToMany(mappedBy = "goods")
+    private List<Order> orderList = new ArrayList<>();
+
+
+    @Builder
+    public static Goods createGoods(String name, String introduction, String link, Integer goodsPrice,
+                                    Integer deliveryFee, Integer mapX, Integer mapY, Integer goodsLimitCount,
+                                    LocalDateTime goodsLimitTime, String hostNickname,Category category) {
+        Goods goods = new Goods();
+        goods.name = name;
+        goods.introduction = introduction;
+        goods.link = link;
+        goods.goodsPrice = goodsPrice;
+        goods.deliveryFee = deliveryFee;
+        goods.address = new Address(mapX, mapY);
+        goods.isEnd = false;
+        goods.goodsLimitCount = goodsLimitCount;
+        goods.goodsLimitTime = goodsLimitTime;
+        goods.hostNickname = hostNickname;
+        goods.category = category;
+
+        return goods;
+    }
+
+    public void updateIsEnd(boolean isEnd) {
+        this.isEnd = isEnd;
+    }
 }

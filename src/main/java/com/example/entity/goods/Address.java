@@ -1,11 +1,14 @@
 package com.example.entity.goods;
 
-import com.example.entity.BaseTimeEntity;
 import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Embeddable
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Address {
 
     private Integer mapX;

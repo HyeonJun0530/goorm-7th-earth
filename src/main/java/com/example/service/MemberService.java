@@ -8,10 +8,12 @@ import com.example.exception.member.LoginMemberException;
 import com.example.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.example.exception.global.GlobalErrorCode.RESOURCE_NOT_FOUND;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class MemberService {
 

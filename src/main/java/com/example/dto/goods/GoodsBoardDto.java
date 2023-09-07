@@ -1,0 +1,17 @@
+package com.example.dto.goods;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class GoodsBoardDto {
+
+    private String nickname;
+
+    private Integer orderCount;
+
+    private GoodsDto goodsDto;
+}
