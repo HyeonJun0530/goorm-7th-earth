@@ -23,7 +23,7 @@ spec:
             - name: TZ
               value: Asia/Seoul
             - name: DATABASE_URL
-              value: jdbc:mysql://mariadb:3306/goorm
+              value: jdbc:mariadb://mariadb:3306/goorm
           resources:
             requests:
               memory: 1Gi
