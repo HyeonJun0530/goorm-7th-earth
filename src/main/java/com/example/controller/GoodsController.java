@@ -4,6 +4,7 @@ import com.example.dto.goods.GoodsBoardDto;
 import com.example.dto.goods.GoodsDto;
 import com.example.dto.goods.GoodsImagesDto;
 import com.example.dto.goods.GoodsSaveDto;
+import com.example.entity.goods.ImageUploadRequest;
 import com.example.exception.global.exception.ResourceNotFoundException;
 import com.example.service.goods.GoodsImagesService;
 import com.example.service.goods.GoodsService;
@@ -28,7 +29,6 @@ import static org.springframework.http.HttpStatus.OK;
 public class GoodsController {
 
     private final GoodsService goodsService;
-    private final GoodsImagesService goodsImagesService;
 
     @PostMapping("/goods")
     public ResponseEntity saveGoods(@RequestBody GoodsSaveDto goodsSaveDto, @RequestParam String memberIdx) {
@@ -38,9 +38,9 @@ public class GoodsController {
     }
 
     @PostMapping("/{goodsId}/image")
-    public ResponseEntity saveImage(@RequestParam("goodsImgFile") List<MultipartFile> goodsImgFileList,
-                                    @PathVariable Long goodsId) throws IOException {
-        goodsService.saveImage(goodsImgFileList, goodsId);
+    public ResponseEntity saveImage(ImageUploadRequest request,
+                                    @PathVariable("goodsId") Long goodsId) throws IOException {
+        goodsService.saveImage(request.goodsImgFile(), goodsId);
 
         return new ResponseEntity("이미지 저장 성공", OK);
     }
@@ -78,20 +78,5 @@ public class GoodsController {
         return new ResponseEntity(goodsList, OK);
     }
 
-    @GetMapping("/{goodsId}/image")
-    public ResponseEntity getRepGoodsImage(@PathVariable Long goodsId) {
-        GoodsImagesDto repImages = goodsImagesService.getRepImages(goodsId);
-
-        return ResponseEntity.ok().
-                contentType(MediaType.IMAGE_JPEG)
-                .body(repImages);
-    }
-
-    @GetMapping("/{goodsId}/images")
-    public ResponseEntity getGoodImageList(@PathVariable Long goodsId) {
-        List<GoodsImagesDto> goodsImageList = goodsImagesService.getGoodsImageList(goodsId);
-
-        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(goodsImageList);
-    }
 
 }

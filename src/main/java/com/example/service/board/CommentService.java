@@ -29,7 +29,7 @@ public class CommentService {
         Board board = boardRepository.findBoardByBoardIdWithGetComment(boardId)
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NOT_FOUND));
         Comment comment = Comment.createComment(member, board,commentDto.getContent());
-
+        board.addComment(comment);
         commentRepository.save(comment);
     }
 

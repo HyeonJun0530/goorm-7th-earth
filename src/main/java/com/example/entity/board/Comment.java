@@ -6,9 +6,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(name = "Comment")
 @NoArgsConstructor
@@ -30,24 +27,6 @@ public class Comment extends BaseTimeEntity {
 
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private Comment parent;
-
-    @OneToMany(mappedBy = "parent")
-    private List<Comment> child = new ArrayList<>();
-
-    public static Comment createComment(Member member, Board board,
-                                        String content, Comment parent) {
-        Comment comment = new Comment();
-        comment.member = member;
-        comment.board = board;
-        comment.content = content;
-        comment.parent = parent;
-        parent.addChildCategory(comment);
-
-        return comment;
-    }
 
     public static Comment createComment(Member member, Board board,
                                         String content) {
@@ -59,12 +38,5 @@ public class Comment extends BaseTimeEntity {
         return comment;
     }
 
-    public void addChildCategory(Comment child) {
-        this.child.add(child);
-        child.setParent(this);
-    }
 
-    public void setParent(Comment parent) {
-        this.parent = parent;
-    }
 }

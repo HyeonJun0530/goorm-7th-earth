@@ -38,4 +38,8 @@ public class Board extends BaseTimeEntity {
 
         return board;
     }
+
+    public void addComment(Comment comment) {
+        commentList.add(comment);
+    }
 }

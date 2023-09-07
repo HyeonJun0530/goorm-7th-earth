@@ -4,6 +4,7 @@ import com.example.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 @Entity
 @NoArgsConstructor
@@ -19,7 +20,7 @@ public class GoodsImages extends BaseTimeEntity {
     @JoinColumn(name = "goods_id")
     private Goods goods;
 
-    @Lob
+    @Column(columnDefinition = "mediumblob")
     private byte[] image;
 
     private boolean repimgYn; //대표 이미지 여부

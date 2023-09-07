@@ -51,18 +51,17 @@ public class GoodsService {
         return goodsId;
     }
 
-    public void saveImage(List<MultipartFile> goodsImgFileList, Long goodsId) throws IOException {
+    public void saveImage(MultipartFile goodsImgFile, Long goodsId) throws IOException {
         Goods goods = getGoods(goodsId);
-        for (int i = 0; i < goodsImgFileList.size(); i++) {
+
             GoodsImages goodsImages = new GoodsImages();
             goodsImages.setGoods(goods);
-            goodsImages.setImage(goodsImgFileList.get(i).getBytes());
+            goodsImages.setImage(goodsImgFile.getBytes());
+            goodsImages.setRepimgYn(true);
 
-            if (i == 0) goodsImages.setRepimgYn(true);
-            else goodsImages.setRepimgYn(false);
 
             goodsImagesRepository.save(goodsImages);
-        }
+
     }
 
     public GoodsBoardDto getGoodsPage(Long goodsId) {
