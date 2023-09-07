@@ -11,6 +11,8 @@ public class GoodsBoardDto {
 
     private String nickname;
 
+    private Integer sellCount;
+
     private Integer orderCount;
 
     private GoodsDto goodsDto;
