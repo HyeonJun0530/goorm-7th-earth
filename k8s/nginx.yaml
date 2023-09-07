@@ -61,4 +61,4 @@ spec:
               serviceName: nginx-service
               servicePort: 80
             # 여러분의 app path 를 넣어주세요.
-            path: /k73b95941a743a(/|$)(.*)
+            path: /k0cd5a0a90942a(/|$)(.*)
