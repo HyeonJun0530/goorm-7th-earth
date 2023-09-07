@@ -31,18 +31,25 @@ public class GoodsController {
     private final GoodsImagesService goodsImagesService;
 
     @PostMapping("/goods")
-    public ResponseEntity saveGoods(@RequestBody GoodsSaveDto goodsSaveDto, @RequestParam String memberIdx,
-                                    @RequestParam("goodsImgFile") List<MultipartFile> goodsImgFileList) throws IOException {
-        goodsService.saveGoods(goodsSaveDto, memberIdx, goodsImgFileList);
+    public ResponseEntity saveGoods(@RequestBody GoodsSaveDto goodsSaveDto, @RequestParam String memberIdx) {
+        goodsService.saveGoods(goodsSaveDto, memberIdx);
 
         return new ResponseEntity("상품이 저장되었습니다.", OK);
+    }
+
+    @PostMapping("/{goodsId}/image")
+    public ResponseEntity saveImage(@RequestParam("goodsImgFile") List<MultipartFile> goodsImgFileList,
+                                    @PathVariable Long goodsId) throws IOException {
+        goodsService.saveImage(goodsImgFileList, goodsId);
+
+        return new ResponseEntity("이미지 저장 성공", OK);
     }
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "굿즈 상세 페이지 반환", content = @Content(mediaType = "application/json", schema = @Schema(implementation = GoodsBoardDto.class))),
             @ApiResponse(responseCode = "404", description = "해당 리소스를 찾을 수 없습니다.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResourceNotFoundException.class))),
     })
-    @GetMapping("/goods/{goodsId}")
+    @GetMapping("/goods/{goodsId}/page")
     public ResponseEntity getGoodsPage(@PathVariable("goodsId") Long goodsId) {
         GoodsBoardDto goodsPage = goodsService.getGoodsPage(goodsId);
 
@@ -53,7 +60,7 @@ public class GoodsController {
             @ApiResponse(responseCode = "200", description = "굿즈 리스트 반환", content = @Content(mediaType = "application/json", schema = @Schema(implementation = GoodsDto.class))),
             @ApiResponse(responseCode = "404", description = "해당 리소스를 찾을 수 없습니다.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResourceNotFoundException.class))),
     })
-    @GetMapping("/goods/{categoryId}")
+    @GetMapping("/goods/{categoryId}/list")
     public ResponseEntity getGoodsList(@PathVariable("categoryId") Long categoryId) {
         List<GoodsDto> goodsList = goodsService.getGoodsList(categoryId);
 

@@ -35,6 +35,8 @@ public class GoodsDto {
 
     private Integer realDeliveryFee;
 
+    private boolean isEnd;
+
 
     public static GoodsDto toGoodsDto(Goods goods) {
         GoodsDto goodsDto = new GoodsDto();
@@ -47,9 +49,12 @@ public class GoodsDto {
         goodsDto.setCategory(goods.getCategory().getId());
         goodsDto.setLink(goods.getLink());
         goodsDto.setDeliveryFee(goods.getDeliveryFee());
-        goodsDto.setMapX(goodsDto.getMapX());
-        goodsDto.setMapY(goodsDto.getMapY());
-        goodsDto.setRealDeliveryFee(goods.getDeliveryFee() / goods.getCurrentOrderCount());
+        goodsDto.setMapX(goods.getAddress().getMapX());
+        goodsDto.setMapY(goods.getAddress().getMapY());
+        goodsDto.setEnd(goods.isEnd());
+        if(goods.getCurrentOrderCount() != 0) goodsDto.setRealDeliveryFee(goods.getDeliveryFee() / goods.getCurrentOrderCount());
+        else goodsDto.setRealDeliveryFee(goods.getDeliveryFee());
+
         return goodsDto;
     }
 }

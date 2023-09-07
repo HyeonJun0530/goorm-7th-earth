@@ -1,5 +1,6 @@
 package com.example.service.board;
 
+import com.example.dto.board.BoardDto;
 import com.example.entity.board.Board;
 import com.example.entity.board.Comment;
 import com.example.entity.goods.Goods;
@@ -28,10 +29,10 @@ public class BoardService {
         boardRepository.save(board);
     }
 
-    public void getBoard(Long boardId) {
+    public BoardDto getBoard(Long boardId) {
         Board board = boardRepository.findBoardByBoardIdWithGetComment(boardId)
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NOT_FOUND));
 
-        List<Comment> commentList = board.getCommentList();
+        return BoardDto.toBoardDto(board);
     }
 }

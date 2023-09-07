@@ -38,7 +38,7 @@ public class GoodsService {
     private final MemberRepository memberRepository;
     private final OrderRepository orderRepository;
 
-    public Long saveGoods(GoodsSaveDto goodsSaveDto, String memberIdx, List<MultipartFile> multipartFileList) throws IOException {
+    public Long saveGoods(GoodsSaveDto goodsSaveDto, String memberIdx){
         GoodsDto goodsDto = goodsSaveDto.getGoodsDto();
         Category category = getCategory(goodsDto);
 
@@ -48,18 +48,21 @@ public class GoodsService {
 
         Long goodsId = goodsRepository.save(goods).getId();
 
-        for (int i = 0; i < multipartFileList.size(); i++) {
+        return goodsId;
+    }
+
+    public void saveImage(List<MultipartFile> goodsImgFileList, Long goodsId) throws IOException {
+        Goods goods = getGoods(goodsId);
+        for (int i = 0; i < goodsImgFileList.size(); i++) {
             GoodsImages goodsImages = new GoodsImages();
             goodsImages.setGoods(goods);
-            goodsImages.setImage(multipartFileList.get(i).getBytes());
+            goodsImages.setImage(goodsImgFileList.get(i).getBytes());
 
             if (i == 0) goodsImages.setRepimgYn(true);
             else goodsImages.setRepimgYn(false);
 
             goodsImagesRepository.save(goodsImages);
         }
-
-        return goodsId;
     }
 
     public GoodsBoardDto getGoodsPage(Long goodsId) {

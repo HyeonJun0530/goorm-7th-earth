@@ -25,18 +25,10 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     public void createComment(String memberIdx, Long boardId, CommentDto commentDto) {
-        Comment comment;
         Member member = memberService.getMember(memberIdx);
         Board board = boardRepository.findBoardByBoardIdWithGetComment(boardId)
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NOT_FOUND));
-
-        if (commentDto.getParentCommentId() != null) {
-            Comment parent = board.getCommentList().stream().filter(comment1 -> comment1.getId() == commentDto.getParentCommentId())
-                    .findFirst().orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NOT_FOUND));
-            comment = Comment.createComment(member, board, commentDto.getContent(), parent);
-        } else {
-            comment = Comment.createComment(member, board, commentDto.getContent());
-        }
+        Comment comment = Comment.createComment(member, board,commentDto.getContent());
 
         commentRepository.save(comment);
     }
