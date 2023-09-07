@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,12 +42,14 @@ public class GoodsService {
 
     public GoodsBoardDto getGoodsPage(Long goodsId) {
         Goods goods = getGoods(goodsId);
+        checkTime(goods);
 
         return new GoodsBoardDto(goods.getHostNickname(), goods.getOrderList().size() + 1,GoodsDto.toGoodsDto(goods));
     }
 
     public List<GoodsDto> getGoodsList() {
         List<Goods> goodsList = goodsRepository.findAll();
+        goodsList.stream().forEach(goods -> checkTime(goods));
 
         return goodsList.stream()
                 .map(GoodsDto::toGoodsDto)
@@ -61,5 +64,13 @@ public class GoodsService {
     private Category getCategory(GoodsDto goodsDto) {
         return categoryRepository.findById(goodsDto.getCategory())
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NOT_FOUND));
+    }
+
+    private void checkTime(Goods goods) {
+        LocalDateTime now = LocalDateTime.now();
+
+        if(!goods.getGoodsLimitTime().isAfter(now)) {
+            goods.updateIsEnd(true);
+        }
     }
 }
