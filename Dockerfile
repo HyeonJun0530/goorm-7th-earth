@@ -1,14 +1,9 @@
-# Stage 1: Build the application
-FROM gradle:8.2.1-openjdk:17-oracle
+FROM openjdk:17-alpine
 
-WORKDIR /home/gradle/project
+CMD ["java","-jar","/build/libs/goorm-7th-earth-0.0.1-SNAPSHOT.jar"]
 
-COPY . .
+WORKDIR /usr/src/app
 
-RUN echo "systemProp.http.proxyHost=krmp-proxy.9rum.cc\nsystemProp.http.proxyPort=3128\nsystemProp.https.proxyHost=krmp-proxy.9rum.cc\nsystemProp.https.proxyPort=3128" > /root/.gradle/gradle.properties
+ARG JAR_PATH=./build/libs
 
-RUN gradle wrapper
-
-RUN ./gradlew clean build
-
-CMD ["java", "-jar", "-Dspring.profiles.active=prod", "/home/gradle/project/build/libs/kakao-1.0.jar"]
+COPY ${JAR_PATH}/goorm-7th-earth-0.0.1-SNAPSHOT.jar ${JAR_PATH}/goorm-7th-earth-0.0.1-SNAPSHOT.jar
