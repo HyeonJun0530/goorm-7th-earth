@@ -26,4 +26,16 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_phone_number", unique = true)
     private String phoneNumber;
 
+
+    public static Member createMember(String memberIdx, String password,
+                                      String nickname, String phoneNumber) {
+        Member member = new Member();
+
+        member.memberIdx = memberIdx;
+        member.password = password;
+        member.nickname = nickname;
+        member.phoneNumber = phoneNumber;
+
+        return member;
+    }
 }
