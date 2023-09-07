@@ -1,7 +1,6 @@
 package com.example.entity.goods;
 
 import com.example.entity.BaseTimeEntity;
-import com.example.entity.Member;
 import com.example.entity.order.Order;
 import com.example.exception.order.OrderOverCountException;
 import jakarta.persistence.*;

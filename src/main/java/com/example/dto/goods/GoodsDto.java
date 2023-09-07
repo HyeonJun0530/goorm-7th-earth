@@ -1,10 +1,13 @@
 package com.example.dto.goods;
 
 import com.example.entity.goods.Goods;
+import com.example.entity.goods.GoodsImages;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -30,6 +33,9 @@ public class GoodsDto {
 
     private Long category;
 
+    private Integer realDeliveryFee;
+
+
     public static GoodsDto toGoodsDto(Goods goods) {
         GoodsDto goodsDto = new GoodsDto();
 
@@ -43,7 +49,7 @@ public class GoodsDto {
         goodsDto.setDeliveryFee(goods.getDeliveryFee());
         goodsDto.setMapX(goodsDto.getMapX());
         goodsDto.setMapY(goodsDto.getMapY());
-
+        goodsDto.setRealDeliveryFee(goods.getDeliveryFee() / goods.getCurrentOrderCount());
         return goodsDto;
     }
 }

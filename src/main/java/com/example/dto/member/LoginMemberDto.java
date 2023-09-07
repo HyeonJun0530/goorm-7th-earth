@@ -1,6 +1,5 @@
 package com.example.dto.member;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

@@ -2,17 +2,22 @@ package com.example.controller;
 
 import com.example.dto.goods.GoodsBoardDto;
 import com.example.dto.goods.GoodsDto;
+import com.example.dto.goods.GoodsImagesDto;
+import com.example.dto.goods.GoodsSaveDto;
 import com.example.exception.global.exception.ResourceNotFoundException;
+import com.example.service.goods.GoodsImagesService;
 import com.example.service.goods.GoodsService;
-import com.example.service.order.OrderService;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.OK;
@@ -23,12 +28,13 @@ import static org.springframework.http.HttpStatus.OK;
 public class GoodsController {
 
     private final GoodsService goodsService;
+    private final GoodsImagesService goodsImagesService;
 
     @PostMapping("/goods")
-    public ResponseEntity saveGoods(@RequestBody GoodsDto goodsDto, @RequestParam String memberIdx) {
-        goodsService.saveGoods(goodsDto, memberIdx);
+    public ResponseEntity saveGoods(@RequestBody GoodsSaveDto goodsSaveDto, @RequestParam String memberIdx,
+                                    @RequestParam("goodsImgFile") List<MultipartFile> goodsImgFileList) throws IOException {
+        goodsService.saveGoods(goodsSaveDto, memberIdx, goodsImgFileList);
 
-        //TODO: 판매자 화면 구성 -> 채팅방
         return new ResponseEntity("상품이 저장되었습니다.", OK);
     }
 
@@ -64,4 +70,21 @@ public class GoodsController {
 
         return new ResponseEntity(goodsList, OK);
     }
+
+    @GetMapping("/{goodsId}/image")
+    public ResponseEntity getRepGoodsImage(@PathVariable Long goodsId) {
+        GoodsImagesDto repImages = goodsImagesService.getRepImages(goodsId);
+
+        return ResponseEntity.ok().
+                contentType(MediaType.IMAGE_JPEG)
+                .body(repImages);
+    }
+
+    @GetMapping("/{goodsId}/images")
+    public ResponseEntity getGoodImageList(@PathVariable Long goodsId) {
+        List<GoodsImagesDto> goodsImageList = goodsImagesService.getGoodsImageList(goodsId);
+
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(goodsImageList);
+    }
+
 }
