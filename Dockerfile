@@ -1,13 +1,7 @@
-FROM openjdk:17-alpine
+FROM gradle:8.3-jdk17
 
-CMD ["java","-jar","/build/libs/goorm-7th-earth-0.0.1-SNAPSHOT.jar"]
+WORKDIR /home/gradle/project
 
-WORKDIR /usr/src/app
+COPY . .
 
-ARG JAR_PATH=./build/libs
-
-RUN gradle wrapper
-
-RUN ./gradlew clean build
-
-COPY ${JAR_PATH}/goorm-7th-earth-0.0.1-SNAPSHOT.jar ${JAR_PATH}/goorm-7th-earth-0.0.1-SNAPSHOT.jar
+CMD ["java","-jar","/home/gradle/project/build/libs/goorm-7th-earth-0.0.1-SNAPSHOT.jar"]
