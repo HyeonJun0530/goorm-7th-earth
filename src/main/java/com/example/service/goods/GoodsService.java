@@ -28,7 +28,7 @@ public class GoodsService {
     private final CategoryRepository categoryRepository;
     private final MemberService memberService;
 
-    public void saveGoods(GoodsDto goodsDto, String memberIdx) {
+    public Long saveGoods(GoodsDto goodsDto, String memberIdx) {
 
         Category category = getCategory(goodsDto);
 
@@ -37,7 +37,7 @@ public class GoodsService {
                 goodsDto.getGoodsLimitCount(), goodsDto.getGoodsLimitTime(), memberService.getMember(memberIdx).getNickname(),
                 category);
 
-        goodsRepository.save(goods);
+        return goodsRepository.save(goods).getId();
     }
 
     public GoodsBoardDto getGoodsPage(Long goodsId) {
@@ -49,6 +49,17 @@ public class GoodsService {
 
     public List<GoodsDto> getGoodsList() {
         List<Goods> goodsList = goodsRepository.findAll();
+
+        goodsList.stream().forEach(goods -> checkTime(goods));
+
+        return goodsList.stream()
+                .map(GoodsDto::toGoodsDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<GoodsDto> getGoodsList(Long categoryId) {
+        List<Goods> goodsList = goodsRepository.findAllByCategoryId(categoryId);
+
         goodsList.stream().forEach(goods -> checkTime(goods));
 
         return goodsList.stream()

@@ -3,6 +3,7 @@ package com.example.entity.goods;
 import com.example.entity.BaseTimeEntity;
 import com.example.entity.Member;
 import com.example.entity.order.Order;
+import com.example.exception.order.OrderOverCountException;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -52,6 +53,8 @@ public class Goods extends BaseTimeEntity {
 
     private String hostNickname;
 
+    private Integer currentOrderCount;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
@@ -64,7 +67,7 @@ public class Goods extends BaseTimeEntity {
     @Builder
     public static Goods createGoods(String name, String introduction, String link, Integer goodsPrice,
                                     Integer deliveryFee, Integer mapX, Integer mapY, Integer goodsLimitCount,
-                                    LocalDateTime goodsLimitTime, String hostNickname,Category category) {
+                                    LocalDateTime goodsLimitTime, String hostNickname, Category category) {
         Goods goods = new Goods();
         goods.name = name;
         goods.introduction = introduction;
@@ -76,6 +79,7 @@ public class Goods extends BaseTimeEntity {
         goods.goodsLimitCount = goodsLimitCount;
         goods.goodsLimitTime = goodsLimitTime;
         goods.hostNickname = hostNickname;
+        goods.currentOrderCount = 0;
         goods.category = category;
 
         return goods;
@@ -83,5 +87,15 @@ public class Goods extends BaseTimeEntity {
 
     public void updateIsEnd(boolean isEnd) {
         this.isEnd = isEnd;
+    }
+
+    public void updateCurrentOrder(Integer orderCount) {
+        this.currentOrderCount += orderCount;
+
+        if(this.currentOrderCount > this.goodsLimitCount) {
+            throw new OrderOverCountException();
+        }
+
+        if(this.currentOrderCount == this.goodsLimitCount) this.isEnd = true;
     }
 }
