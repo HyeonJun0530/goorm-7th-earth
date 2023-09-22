@@ -13,6 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 public class GoodsDto {
 
+    private Long goodsId;
+
     private String name;
 
     private String introduction;
@@ -41,6 +43,7 @@ public class GoodsDto {
     public static GoodsDto toGoodsDto(Goods goods) {
         GoodsDto goodsDto = new GoodsDto();
 
+        goodsDto.setGoodsId(goods.getId());
         goodsDto.setName(goods.getName());
         goodsDto.setGoodsPrice(goods.getGoodsPrice());
         goodsDto.setIntroduction(goods.getIntroduction());
